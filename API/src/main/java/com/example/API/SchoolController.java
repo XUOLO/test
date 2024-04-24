@@ -36,6 +36,7 @@ public class SchoolController {
 
     @GetMapping
     public ResponseEntity<List<School>> findAllSchools() {
+
         return ResponseEntity.ok(service.findAllSchools());
     }
 
