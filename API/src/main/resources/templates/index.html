@@ -43,7 +43,7 @@
                 <th>Id</th>
                 <th>Image</th>
                 <th>Create At</th>
-
+<th></th>
             </tr>
             </thead>
         </table>
@@ -55,6 +55,7 @@
                 <td th:text="${list.id}"></td>
                 <td><img height="50px" th:src="@{'/display?id=' + ${list.id}}" alt=""></td>
                 <td th:text="${list.date}"></td>
+                <td ><a th:href="@{/delete/{id}(id=${list.id})}">delete</a></td>
             </tr>
             </tbody>
         </table>

@@ -8,10 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +23,8 @@ import java.util.List;
 public class ClientController {
     @Autowired
     private ImageService imageService;
-
+    @Autowired
+    private ImageRepository imageRepository;
     @GetMapping("/ping")
     @ResponseBody
     public String hello_world(){
@@ -72,4 +70,14 @@ public class ClientController {
         imageService.create(image);
         return "redirect:/";
     }
+
+
+    @GetMapping("/delete/{id}")
+    public String deleteprod( @PathVariable(value = "id") long id)
+    {
+        this.imageRepository.deleteById(id);
+        return "redirect:/";
+    }
+
+
 }
