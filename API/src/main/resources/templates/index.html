@@ -5,6 +5,7 @@
     <title>Spring Boot MySQL Image Upload / View</title>
     <!--Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="/style.css" rel="stylesheet">
 
 </head>
 <body>
@@ -30,32 +31,42 @@
 </nav>
 <!-- View Images -->
 <!--Main Content-->
-<div class="mt-5">
-    <h1 class="text-center">View Images</h1>
-    <div class="container">
-        <!--Add User Button-->
-        <div class="my-3">
-            <a href="/add"><button type="button" class="btn btn-primary">Add Image</button></a>
-        </div>
-        <table class="table border" >
+
+
+<section>
+    <!--for demo wrap-->
+    <h1>Fixed Table header</h1>
+    <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
             <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Image</th>
-                <th scope="col">Created AT</th>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Create At</th>
+
             </tr>
             </thead>
+        </table>
+    </div>
+    <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
             <tbody>
             <tr th:each="list : ${imageList}">
                 <td th:text="${list.id}"></td>
-                <td><img height="250px"  th:src="@{${'/display?id=' + list.id}}" alt=""></td>
+                <td><img height="50px" th:src="@{'/display?id=' + ${list.id}}" alt=""></td>
                 <td th:text="${list.date}"></td>
             </tr>
             </tbody>
         </table>
     </div>
+</section>
+
+
+<!-- follow me template -->
+<div class="made-with-love">
+    Made with
+    <i>♥</i> by
+    <a target="_blank" href="https://codepen.io/nikhil8krishnan">Nikhil Krishnan</a>
 </div>
-<!--Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-</body>
+ </body>
 </html>

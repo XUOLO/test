@@ -2,6 +2,7 @@ package com.example.API;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class ClientController {
     }
 
     // display image
+    @Transactional
     @GetMapping("/display")
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
     {
