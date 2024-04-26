@@ -51,6 +51,34 @@ public class ClientController {
         model.addAttribute("imageList",imageList);
         return "index";
     }
+    @GetMapping("/Sign-in")
+    public String login(Model model){
+        return "Sign-in";
+    }
+    @GetMapping("/about")
+    public String aboutPage(Model model){
+        return "about";
+    }
+    @GetMapping("/contact")
+    public String contactPage(Model model){
+        return "contact";
+    }
+    @GetMapping("/faq")
+    public String faqPage(Model model){
+        return "faq";
+    }
+    @GetMapping("/Sign-up")
+    public String registerPage(Model model){
+        return "Sign-up";
+    }
+    @GetMapping("/products")
+    public String productsPage(Model model){
+        return "products";
+    }
+    @GetMapping("/product-detail")
+    public String productDetailPage(Model model){
+        return "product-detail";
+    }
 
     // add image - get
     @GetMapping("/add")
