@@ -1,9 +1,6 @@
-package com.example.API.Controller;
+package com.example.API;
 
 
-import com.example.API.Image;
-import com.example.API.ImageRepository;
-import com.example.API.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

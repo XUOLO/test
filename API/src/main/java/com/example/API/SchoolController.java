@@ -1,7 +1,5 @@
-package com.example.API.Controller;
+package com.example.API;
 
-import com.example.API.School;
-import com.example.API.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
