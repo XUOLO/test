@@ -1,5 +1,9 @@
-package com.example.API;
+package com.example.API.Controller;
 
+import com.example.API.Entity.Song;
+import com.example.API.Repository.SongRepository;
+import com.example.API.School;
+import com.example.API.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +43,8 @@ public class SchoolController {
 
         return ResponseEntity.ok(service.findAllSchools());
     }
+
+
 
 //    @GetMapping("/with-students/{school-id}")
 //    public ResponseEntity<FullSchoolRespone> findAllSchools(

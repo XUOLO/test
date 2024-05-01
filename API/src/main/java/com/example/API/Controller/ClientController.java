@@ -1,6 +1,9 @@
-package com.example.API;
+package com.example.API.Controller;
 
 
+import com.example.API.Image;
+import com.example.API.ImageRepository;
+import com.example.API.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +44,14 @@ public class ClientController {
         imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
+    @GetMapping("/table")
+    public String table(Model model){
 
+        List<Image> imageList = imageService.viewAll();
+//        mv.addObject("imageList", imageList);
+        model.addAttribute("imageList",imageList);
+        return "table";
+    }
     // view All images
     @GetMapping("/")
     public String home(Model model){
