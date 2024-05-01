@@ -1,7 +1,5 @@
 package com.example.API.Controller;
 
-import com.example.API.Entity.Song;
-import com.example.API.Repository.SongRepository;
 import com.example.API.School;
 import com.example.API.SchoolService;
 import lombok.RequiredArgsConstructor;
