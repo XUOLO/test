@@ -26,16 +26,6 @@ public class SchoolController {
         service.saveSchool(school);
     }
 
-//    @PutMapping("/{id}")
-//    public void update(@PathVariable("id") Integer id, @RequestBody School updatedSchool) {
-//         School existingSchool = service.findSchoolById(id);
-//        if (existingSchool == null) {
-//            throw new NotFoundException("School not found with id: " + id);
-//        }
-//        existingSchool.setName(updatedSchool.getName());
-//        existingSchool.setEmail(updatedSchool.getEmail());
-//        service.saveSchool(existingSchool);
-//    }
 
 
     @GetMapping
