@@ -3,7 +3,6 @@ package com.example.API;
 
 import jakarta.persistence.*;
 
-
 import java.sql.Blob;
 import java.util.Date;
 

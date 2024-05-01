@@ -1,7 +1,5 @@
-package com.example.API.Controller;
+package com.example.API;
 
-import com.example.API.School;
-import com.example.API.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +22,16 @@ public class SchoolController {
         service.saveSchool(school);
     }
 
+//    @PutMapping("/{id}")
+//    public void update(@PathVariable("id") Integer id, @RequestBody School updatedSchool) {
+//         School existingSchool = service.findSchoolById(id);
+//        if (existingSchool == null) {
+//            throw new NotFoundException("School not found with id: " + id);
+//        }
+//        existingSchool.setName(updatedSchool.getName());
+//        existingSchool.setEmail(updatedSchool.getEmail());
+//        service.saveSchool(existingSchool);
+//    }
 
 
     @GetMapping
@@ -31,8 +39,6 @@ public class SchoolController {
 
         return ResponseEntity.ok(service.findAllSchools());
     }
-
-
 
 //    @GetMapping("/with-students/{school-id}")
 //    public ResponseEntity<FullSchoolRespone> findAllSchools(

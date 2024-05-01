@@ -1,9 +1,6 @@
-package com.example.API.Controller;
+package com.example.API;
 
 
-import com.example.API.Image;
-import com.example.API.ImageRepository;
-import com.example.API.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
@@ -44,14 +40,7 @@ public class ClientController {
         imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
-    @GetMapping("/table")
-    public String table(Model model){
 
-        List<Image> imageList = imageService.viewAll();
-//        mv.addObject("imageList", imageList);
-        model.addAttribute("imageList",imageList);
-        return "table";
-    }
     // view All images
     @GetMapping("/")
     public String home(Model model){
