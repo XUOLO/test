@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card-body">
+    <form class="row g-3" method="post" role="form" th:action="@{/register}" th:object="${user}" >
+
+        <div class="row mb-3">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text"  id="name" name="name" required th:field="*{name}" class="form-control">
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input type="text"  id="email" name="email" required th:field="*{email}" class="form-control">
+                <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="address" class="col-sm-2 col-form-label">Address</label>
+            <div class="col-sm-10">
+                <input type="text"  id="address" name="address" required th:field="*{address}" class="form-control">
+                <span class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+            <div class="col-sm-10">
+                <input type="text"  id="phone" name="address" required th:field="*{phone}" class="form-control">
+                <span class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="username" class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-10">
+                <input type="text"  id="username" name="username" required th:field="*{username}" class="form-control">
+                <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="username" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="text"  id="password" name="password" required th:field="*{password}" class="form-control">
+                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="col-12">
+            <button class="btn btn-primary w-100" type="submit">Đăng kí</button>
+        </div>
+
+
+    </form>
+
+</div>
+
+</body>
+</html>
