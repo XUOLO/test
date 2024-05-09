@@ -40,7 +40,7 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("/**").permitAll()
+                                // .requestMatchers("/**").permitAll()
 
                                .requestMatchers("/").hasAnyAuthority("ADMIN","EMPLOYEE")
                                .requestMatchers("/assets/**").permitAll()

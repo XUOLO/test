@@ -60,9 +60,9 @@ public class AuthenController {
         String name = (String) session.getAttribute("name");
         model.addAttribute("name",name);
         user.setCreateDate(LocalDateTime.now());
-        user.setCreateBy(name);
+        user.setCreateBy("name");
         user.setUpdateTime(LocalDateTime.now());
-        user.setUpdateBy(name);
+        user.setUpdateBy("name");
         userRepository.save(user);
 
         // Lưu vai trò của người dùng

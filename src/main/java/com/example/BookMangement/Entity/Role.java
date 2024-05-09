@@ -22,8 +22,7 @@ public class Role  {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+
 
     public Long getId() {
         return id;
@@ -41,11 +40,5 @@ public class Role  {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 }
