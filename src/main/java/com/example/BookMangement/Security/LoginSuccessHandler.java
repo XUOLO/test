@@ -26,9 +26,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // Lấy role của người dùng
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) authentication.getAuthorities();
-        String role = authorities.iterator().next().getAuthority();
-
-
         String username = authentication.getName();
 
         User user = userService.findByUsername(username);

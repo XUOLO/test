@@ -42,9 +42,9 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/**").permitAll()
 
-//                                .requestMatchers("/").hasAnyAuthority("ADMIN","USER")
-//                                .requestMatchers("/assets/**").permitAll()
-//                                .anyRequest().authenticated()
+                               .requestMatchers("/").hasAnyAuthority("ADMIN","EMPLOYEE")
+                               .requestMatchers("/assets/**").permitAll()
+                               .anyRequest().authenticated()
 
 
                 ).formLogin(
