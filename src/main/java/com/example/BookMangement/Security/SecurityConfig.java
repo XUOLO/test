@@ -18,6 +18,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
+/**
+ * fff
+ *
+ * @author xuanl
+ * @version 01-00
+ * @since 5/08/2024
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
@@ -41,10 +48,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 // .requestMatchers("/**").permitAll()
+                                .requestMatchers("/").hasAnyAuthority("ADMIN","EMPLOYEE")
+                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                                .requestMatchers("/employee/**").hasAuthority("ADMIN")
+                                .requestMatchers("/author/**").hasAuthority("ADMIN")
+                                .requestMatchers("/book-category/**").hasAuthority("ADMIN")
+                                .requestMatchers("/assets/**").permitAll()
 
-                               .requestMatchers("/").hasAnyAuthority("ADMIN","EMPLOYEE")
-                               .requestMatchers("/assets/**").permitAll()
-                               .anyRequest().authenticated()
+                                .anyRequest().authenticated()
+
 
 
                 ).formLogin(
@@ -58,7 +70,9 @@ public class SecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-                );
+                )
+                       .exceptionHandling(exceptionHandling ->
+                               exceptionHandling.accessDeniedPage("/403"));
         return http.build();
     }
 

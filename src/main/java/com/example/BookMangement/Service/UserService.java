@@ -1,39 +1,26 @@
 package com.example.BookMangement.Service;
 
-import com.example.BookMangement.Entity.Role;
+import com.example.BookMangement.Entity.BaseRes;
 import com.example.BookMangement.Entity.User;
-import com.example.BookMangement.Repository.RoleRepository;
-import com.example.BookMangement.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
+/**
+ * fff
+ *
+ * @author xuanl
+ * @version 01-00
+ * @since 5/08/2024
+ */
 
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+public interface UserService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    public void save(User user);
+    public User findByUsername(String username);
+    public User getUserById(Long id);
+    public Page<User> findPaginatedEmployee(int pageNo, int pageSize, String sortField, String sortDirection);
 
-    public void save(User user) {
-
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
-    }
-    public User findByUsername(String username) {
-        return userRepository.findUsername(username);
-    }
-
-
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) {
-            return user.get();
-        } else {
-            throw new RuntimeException("Not found id = " + id);
-        }
-    }
+    BaseRes getCmbSong(String keyword, Pageable pageable, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
 }

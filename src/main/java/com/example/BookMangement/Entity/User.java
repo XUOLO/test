@@ -1,14 +1,43 @@
 package com.example.BookMangement.Entity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.Set;
 
 
+/**
+ * fff
+ *
+ * @author xuanl
+ * @version 01-00
+ * @since 5/08/2024
+ */
 @Entity
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "202403_USERS")
 public class User {
 
@@ -29,6 +58,7 @@ public class User {
     private String address;
 
     @NotBlank(message = "Your phone is required")
+    @Pattern(regexp = "^(03|05|07|08|09)\\d{8}$", message = " Phone number must start with 03, 05, 07, 08 or 09 and have 10 number")
     @Column(name = "phone")
     private String phone;
 
@@ -41,16 +71,19 @@ public class User {
     private String password;
 
     @Column(name = "CREATE_DATE",nullable = false)
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
     @Column(name = "CREATE_BY",nullable = false)
     private String createBy;
 
-    @Column(name = "UPDATE_TIME",nullable = false)
-    private LocalDateTime updateTime;
+    @Column(name = "UPDATE_DATE",nullable = false)
+    private LocalDate updateDate;
 
     @Column(name = "UPDATE_BY",nullable = false)
     private String updateBy;
+
+    @Column(name = "IS_DELETE")
+    private Boolean isDelete;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -60,100 +93,9 @@ public class User {
     )
     private Set<Role> roles;
 
-
-    public Long getId() {
-        return id;
+    public void clearRoles() {
+        this.roles.clear();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }
