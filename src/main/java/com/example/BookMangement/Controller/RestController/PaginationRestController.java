@@ -5,6 +5,7 @@ import com.example.BookMangement.Service.AuthorService;
 import com.example.BookMangement.Service.BookCategoryService;
 import com.example.BookMangement.Service.BookService;
 import com.example.BookMangement.Service.MemberService;
+import com.example.BookMangement.Service.SendRequestService;
 import com.example.BookMangement.Service.TicketService;
 import com.example.BookMangement.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +41,9 @@ public class PaginationRestController {
     private UserService userService;
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    private SendRequestService sendRequestService;
 
     @GetMapping("/book")
     public ResponseEntity<BaseRes> getBookList(
@@ -97,5 +101,15 @@ public class PaginationRestController {
             HttpServletResponse httpServletResponse) {
         BaseRes ticketList = ticketService.getCmbSong(keyword, pageable, httpServletRequest, httpServletResponse);
         return new ResponseEntity<>(ticketList, HttpStatus.OK);
+    }
+
+    @GetMapping("/request")
+    public ResponseEntity<BaseRes> getRequestList(
+            @RequestParam("keyword") String keyword,
+            Pageable pageable,
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse) {
+        BaseRes bookList = sendRequestService.getCmbSong(keyword, pageable, httpServletRequest, httpServletResponse);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 }

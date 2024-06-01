@@ -114,7 +114,7 @@ public class TicketRestController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    @PostMapping("/update")
+    @GetMapping("/update")
     public void updateItem(@RequestParam("bookId") Integer bookId, @RequestParam("quantity") Integer quantity, HttpServletRequest request) {
         listTicketService.update(bookId, quantity);
     }

@@ -104,5 +104,22 @@ public class Book {
     public void clearAuthors() {
         this.authors.clear();
     }
-
+    @Column(name = "request")
+    private String request;
+    public String getRequestString() {
+        switch (request) {
+            case "1":
+                return "Pending";
+            case "2":
+                return "In progress";
+            case "3":
+                return "Done";
+            case "4":
+                return "Approve";
+            case "5":
+                return "Reject";
+            default:
+                return "Unknown";
+        }
+    }
 }
