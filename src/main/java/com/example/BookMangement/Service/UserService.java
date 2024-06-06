@@ -23,4 +23,6 @@ public interface UserService {
     public Page<User> findPaginatedEmployee(int pageNo, int pageSize, String sortField, String sortDirection);
 
     BaseRes getCmbSong(String keyword, Pageable pageable, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
+
+    User viewById(long userId);
 }

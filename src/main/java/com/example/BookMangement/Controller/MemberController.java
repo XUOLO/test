@@ -115,6 +115,8 @@ public class MemberController {
         }
         String name = (String) session.getAttribute("name");
         model.addAttribute("name", name);
+        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+        model.addAttribute("userRole", userRole);
         user.setCreateDate(LocalDate.now());
         user.setCreateBy(name);
         user.setUpdateDate(LocalDate.now());

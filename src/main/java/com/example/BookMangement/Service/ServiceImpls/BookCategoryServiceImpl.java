@@ -2,7 +2,6 @@ package com.example.BookMangement.Service.ServiceImpls;
 
 
 import com.example.BookMangement.Entity.BaseRes;
-import com.example.BookMangement.Entity.Book;
 import com.example.BookMangement.Entity.BookCategory;
 import com.example.BookMangement.Repository.BookCategoryRepository;
 import com.example.BookMangement.Service.BookCategoryService;

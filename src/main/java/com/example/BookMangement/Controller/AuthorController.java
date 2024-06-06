@@ -46,6 +46,9 @@ public class AuthorController {
     public String showAuthorForm(Model model, HttpSession session) {
         String name = (String) session.getAttribute("name");
         model.addAttribute("name", name);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+        model.addAttribute("userRole", userRole);
         model.addAttribute("author", new Author());
         return "Author/new-author";
     }

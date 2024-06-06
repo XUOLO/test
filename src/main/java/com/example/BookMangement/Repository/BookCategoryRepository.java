@@ -1,6 +1,5 @@
 package com.example.BookMangement.Repository;
 
-import com.example.BookMangement.Entity.Book;
 import com.example.BookMangement.Entity.BookCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * BookcategoryReponsitory
@@ -38,4 +38,6 @@ public interface BookCategoryRepository extends JpaRepository<BookCategory, Long
             + ") "
             + "AND b.isDelete = false")
     Page<BookCategory> findAllByKeyword(String keyword, Pageable pageable);
+
+    Set<BookCategory> findByTitleIn(List<String> list);
 }

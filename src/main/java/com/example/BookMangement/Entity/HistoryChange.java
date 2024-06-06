@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -16,11 +15,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 /**
- * Request
+ * HistoryChange
  *
- * @author benvo
+ * @author xuanl
  * @version 01-00
- * @since 5/31/2024
+ * @since 6/3/2024
  */
 @Data
 @Entity
@@ -28,16 +27,12 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "202403_send_request")
-public class SendRequest {
+@Table(name = "202403_history_change")
+public class HistoryChange {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "Your description is required")
-    @Column(name = "description",nullable = false)
-    private String description;
 
     @Column(name = "CREATE_DATE",nullable = false)
     private LocalDate createDate;
@@ -45,42 +40,45 @@ public class SendRequest {
     @Column(name = "CREATE_BY",nullable = false)
     private String createBy;
 
-    @Column(name = "UPDATE_DATE",nullable = false)
+    @Column(name = "UPDATE_Date",nullable = false)
     private LocalDate updateDate;
 
     @Column(name = "UPDATE_BY",nullable = false)
     private String updateBy;
 
-    @Column(name = "IS_DELETE",nullable = false)
-    private Boolean isDelete;
+    @Column(name = "entity_type",nullable = false)
+    private String entityType;
 
-    @Column(name = "book_id",nullable = false)
-    private Long bookId;
+    @Column(name = "field_name",nullable = false)
+    private String fieldName;
+    @Column(name = "old_value",nullable = false)
+    private String oldValue;
+    @Column(name = "new_value",nullable = false)
+    private String newValue;
 
-    @Column(name ="status",nullable = false)
+    @Column(name = "status",nullable = false)
     private String status;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id",nullable = false)
     private Long userId;
+    @Column(name = "request_id",nullable = false)
+    private Long requestId;
 
     public String getStatusString() {
         switch (status) {
             case "1":
-                return "PENDING";
+                return "Pending";
             case "2":
                 return "In progress";
             case "3":
                 return "Done";
             case "4":
-                return "APPROVED";
+                return "Approve";
             case "5":
-                return "REJECTED";
-
+                return "Reject";
             default:
                 return "Unknown";
         }
     }
 
-
 }
-

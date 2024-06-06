@@ -1,10 +1,10 @@
 package com.example.BookMangement.Repository;
 
 
-import com.example.BookMangement.Entity.BookCategory;
 import com.example.BookMangement.Entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -70,7 +70,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "AND r.name = 'MEMBER'")
     List<User> findAll(@Param("keyword") String keyword);
 
-
+    @EntityGraph(attributePaths = {"roles"})
     @Query("SELECT b "
             + "FROM User b "
             + "LEFT JOIN FETCH b.roles r "

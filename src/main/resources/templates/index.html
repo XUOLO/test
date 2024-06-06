@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -267,7 +266,7 @@
 </header><!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar" layout:fragment="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
       <a class="nav-link " href="/">
@@ -276,31 +275,37 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
-    <li class="nav-item" >
+    <li class="nav-item" th:if="${userRole == 'ADMIN' }">
       <a class="nav-link collapsed" href="/employee/">
         <i class="bi bi-person"></i>
         <span>Employee</span>
       </a>
     </li><!-- End Profile Page Nav -->
-    <li class="nav-item">
+    <li class="nav-item" th:if="${userRole == 'ADMIN' }">
       <a class="nav-link collapsed" href="/author/">
         <i class="ri-user-star-fill"></i>
         <span>Author</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" th:if="${userRole == 'ADMIN' }">
       <a class="nav-link collapsed" href="/book-category/">
         <i class="ri-book-read-fill"></i>
         <span>Book category</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item"   th:if="${userRole == 'ADMIN' }">
       <a class="nav-link collapsed" href="/book/">
         <i class="bi bi-book"></i>
         <span>Book</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item"   th:if="${userRole == 'EMPLOYEE'}">
+      <a class="nav-link collapsed" href="/book/employee">
+        <i class="bi bi-book"></i>
+        <span>Book</span>
+      </a>
+    </li>
+    <li class="nav-item" >
       <a class="nav-link collapsed" href="/member/">
         <i class="bi bi-person-plus"></i>
         <span>Member</span>
@@ -312,19 +317,22 @@
         <span>Ticket</span>
       </a>
     </li>
+    <li class="nav-item" th:if="${userRole == 'ADMIN' }">
+      <a class="nav-link collapsed" href="/send-request/">
+        <i class="ri-todo-line"></i>
+        <span>Request</span>
+      </a>
+    </li>
+    <li class="nav-item" th:if="${userRole == 'EMPLOYEE' }">
+      <a class="nav-link collapsed" href="/send-request/employee">
+        <i class="ri-todo-line"></i>
+        <span>Request</span>
+      </a>
+    </li>
   </ul>
 </aside><!-- End Sidebar-->
 
-  <main id="main" class="main" layout:fragment="main">
-
-
-
-
-
-
-
-
-
+  <main id="main" class="main" layout:fragment="main" >
 
     <!-- Books Card -->
     <section class="section dashboard">
@@ -482,6 +490,36 @@
 
           </div>
         </div><!-- End Website Traffic -->
+        <!-- Top Selling -->
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Top Rented Books</h5>
+              <table class="table table-borderless">
+                <thead>
+                <tr>
+                  <th scope="col">Preview</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total Rented</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="bookInfo : ${topRentedBooks}">
+                  <tr>
+                    <td><a href="#"><img th:src="@{${bookInfo.book.image}}" alt="Book Image"></a></td>
+                    <td><a href="#" class="text-primary fw-bold" th:text="${bookInfo.book.title}">Book Title</a></td>
+                    <td th:text="${bookInfo.book.price}">$Price</td>
+                    <td th:text="${bookInfo.book.quantity}">Quantity</td>
+                    <td th:text="${bookInfo.rentCount}">Rent Count</td>
+                  </tr>
+                </th:block>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- End Top Rented Books -->
 
 
 

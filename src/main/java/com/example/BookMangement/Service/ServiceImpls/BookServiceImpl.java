@@ -2,7 +2,6 @@ package com.example.BookMangement.Service.ServiceImpls;
 
 import com.example.BookMangement.Entity.BaseRes;
 import com.example.BookMangement.Entity.Book;
-import com.example.BookMangement.Entity.BookCategory;
 import com.example.BookMangement.Repository.BookRepository;
 import com.example.BookMangement.Service.BookService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,13 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,7 +1,6 @@
 package com.example.BookMangement.Service.ServiceImpls;
 
 import com.example.BookMangement.Entity.BaseRes;
-import com.example.BookMangement.Entity.Book;
 import com.example.BookMangement.Entity.User;
 import com.example.BookMangement.Repository.UserRepository;
 import com.example.BookMangement.Service.UserService;
@@ -82,5 +81,10 @@ public class UserServiceImpl implements UserService {
         baseRes.setData(userPage);
 
         return baseRes;
+    }
+
+    @Override
+    public User viewById(long userId) {
+        return userRepository.findById(userId).get();
     }
 }

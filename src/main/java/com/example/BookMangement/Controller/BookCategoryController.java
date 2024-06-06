@@ -47,6 +47,9 @@ public class BookCategoryController {
     public String showNewBookForm(Model model, HttpSession session) {
         String name = (String) session.getAttribute("name");
         model.addAttribute("name", name);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+        model.addAttribute("userRole", userRole);
         model.addAttribute("bookCategory", new BookCategory());
         model.addAttribute("listBookCategories", bookCategoryRepository.findAll());
         return "BookCategory/new-book-category";
@@ -62,24 +65,6 @@ public class BookCategoryController {
         return "BookCategory/list-book-category";
     }
 
-    @GetMapping("/page-book-category/{page-no}")
-    public String findPaginatedBookCategory(Authentication authentication, @PathVariable(value = "page-no") int pageNo, Model model, @RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
-        int pageSize = 5;
-        Page<BookCategory> page = bookCategoryService.findPaginatedBookCategory (pageNo, pageSize, sortField, sortDir);
-        List<BookCategory> listBookCategory = page.getContent();
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-        model.addAttribute("listBookCategory", listBookCategory);
-        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
-        model.addAttribute("userRole", userRole);
-        return "BookCategory/list-book-category";
-
-    }
 
 
     @GetMapping("/edit-book-category/{id}")
@@ -117,6 +102,8 @@ public class BookCategoryController {
         }
         String name = (String) session.getAttribute("name");
         model.addAttribute("name", name);
+        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+        model.addAttribute("userRole", userRole);
         bookCategory.setCreateDate(LocalDate.now());
         bookCategory.setCreateBy(name);
         bookCategory.setUpdateDate(LocalDate.now());
@@ -147,41 +134,8 @@ public class BookCategoryController {
         redirectAttributes.addFlashAttribute("editBookCategorySuccess", "Success edit book category !");
         return "redirect:/book-category/edit-book-category/" + bookCategory.getId();
     }
-    @PostMapping("/search")
-    public String searchBookCategory(@RequestParam("keyword") String keyword,HttpSession session, Model model ,Authentication authentication ) {
-        List<BookCategory> categories = bookCategoryService.searchBookCategory(keyword);
-        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
-        model.addAttribute("userRole",userRole);
-        if (categories.isEmpty()) {
-            String errorMessage = "No matching book category found";
-            model.addAttribute("errorMessage", errorMessage);
-            return findPaginatedBookCategory(authentication,1,model,"title","asc");
-        } else {
-            model.addAttribute("listBookCategory", categories);
-        }
 
-        return findPaginatedKeywordBookCategory(authentication,1,model,"title","asc",keyword);
-    }
 
-    @GetMapping("/page-keyword-book-category/{page-no}")
-    public String findPaginatedKeywordBookCategory(Authentication authentication, @PathVariable(value = "page-no")int pageNo, Model model, @RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam("keyword") String keyword){
-        int pageSize=5;
-        Page<BookCategory> page= bookCategoryService.findPaginatedKeywordBookCategory(pageNo,pageSize,sortField,sortDir,keyword);
-        List<BookCategory> listBookCategory = page.getContent();
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages",page.getTotalPages());
-        model.addAttribute("totalItems",page.getTotalElements());
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("sortField",sortField);
-        model.addAttribute("sortDir",sortDir);
-        model.addAttribute("reverseSortDir",sortDir.equals("asc")?"desc":"asc");
-        model.addAttribute("listBookCategory",listBookCategory);
-        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
-        model.addAttribute("userRole",userRole);
-        return "BookCategory/list-keyword-book-category";
-
-    }
 
 
 }

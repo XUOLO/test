@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * SendRequestRepository
@@ -37,4 +38,24 @@ public interface SendRequestRepository extends JpaRepository<SendRequest, Long> 
             + ") "
             + "AND b.isDelete = false")
     Page<SendRequest> findAllByKeyword(String keyword, Pageable pageable);
+
+    @Query("SELECT b FROM SendRequest b "
+            + "WHERE ("
+            + "LOWER(b.description) LIKE '%' || LOWER(:keyword) || '%' "
+            + "OR CAST(b.createDate AS STRING) LIKE '%' || :keyword || '%' "
+            + "OR LOWER(b.createBy) LIKE '%' || LOWER(:keyword) || '%' "
+            + "OR CAST(b.updateDate AS STRING) LIKE '%' || :keyword || '%' "
+            + "OR LOWER(b.updateBy) LIKE '%' || LOWER(:keyword) || '%' "
+            + "OR LOWER(b.status) LIKE '%' || LOWER(:keyword) || '%' "
+            + "OR CAST(b.bookId AS STRING) LIKE '%' || LOWER(:keyword) || '%' "
+            + ") "
+            + "AND b.isDelete = false "
+            + "AND b.userId = :userId")
+    Page<SendRequest> findSendRequestByUserIdAndKeyword(Long userId, String keyword, Pageable pageable);
+
+    @Query("SELECT a.id FROM SendRequest a WHERE a.bookId = :bookId")
+    Long getIdByBookId(@Param("bookId") Long bookId);
+
+    @Query("SELECT sr FROM SendRequest sr WHERE sr.bookId = :bookId AND sr.status = :status")
+    Optional<SendRequest> findByBookIdAndStatus(@Param("bookId") Long bookId, @Param("status") String status);
 }

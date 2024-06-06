@@ -2,7 +2,6 @@ package com.example.BookMangement.Service.ServiceImpls;
 
 import com.example.BookMangement.Entity.Author;
 import com.example.BookMangement.Entity.BaseRes;
-import com.example.BookMangement.Entity.BookCategory;
 import com.example.BookMangement.Repository.AuthorRepository;
 import com.example.BookMangement.Service.AuthorService;
 import jakarta.servlet.http.HttpServletRequest;

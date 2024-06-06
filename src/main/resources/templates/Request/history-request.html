@@ -5,17 +5,18 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard </title>
+    <title>Book Management</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="/assets/img/favicon.png" rel="icon">
-    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -212,7 +213,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6 th:text="${name}"></h6>
+                        <h6 th:text="${title}"></h6>
                         <span>Web Designer</span>
                     </li>
                     <li>
@@ -263,8 +264,6 @@
     </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
-
-<!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -331,143 +330,88 @@
     </ul>
 </aside><!-- End Sidebar-->
 
- <main id="main" class="main" layout:fragment="main">
+<main id="main" class="main" layout:fragment="main">
 
     <div class="pagetitle">
-        <h1>Dashboard</h1>
+        <h1>Data Tables</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">New employee</li>
+                <li class="breadcrumb-item active">List request</li>
             </ol>
         </nav>
+
     </div><!-- End Page Title -->
 
-    <section class="section dashboard">
-        <div class="card-body">
-            <form th:action="@{/employee/admin/save-user}" th:object="${user}" method="post" onsubmit="return validateForm()">
-                <div th:if="${newEmployeeSuccess}" class="alert alert-success">
-                    <p style="text-align:center;" th:text="${newEmployeeSuccess}"></p>
-                </div>
-
-
-                <div class="row mb-3">
-                    <label for="name" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                        <input type="text"  id="name" name="name"  th:field="*{name}" class="form-control">
-                        <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="text"  id="email" name="email"  th:field="*{email}" class="form-control">
-                        <div th:errors="*{email}" class="text-danger"></div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="address" class="col-sm-2 col-form-label">Address</label>
-                    <div class="col-sm-10">
-                        <input type="text"  id="address" name="address"  th:field="*{address}" class="form-control">
-                        <span class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="phone" class="col-sm-2 col-form-label">Phone</label>
-                    <div class="col-sm-10">
-                        <input type="text"  pattern="(03|05|07|08|09)[0-9]{8}"
-                               maxlength="10"
-                               oninvalid="this.setCustomValidity('Phone number must start with  03, 05, 07, 08 or 09 and have 10 number')"
-                               onchange="this.setCustomValidity('')" onkeypress="return valideNumber()"  id="phone" name="phone"  th:field="*{phone}" class="form-control">
-                        <div th:errors="*{phone}" class="text-danger"></div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="username" class="col-sm-2 col-form-label">Username</label>
-                    <div class="col-sm-10">
-                        <input type="text"  id="username" name="username"  th:field="*{username}" class="form-control">
-                        <div th:errors="*{username}" class="text-danger"></div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="username" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password"  id="password" name="password"  th:field="*{password}" class="form-control">
-                        <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-                    </div>
-                </div>
-
-                <div>
-                    <label>Roles:</label>
-                    <div th:each="role : ${listRole}">
-                        <label>
-                            <input type="checkbox" th:value="${role.id}" th:field="*{roles}" th:if="${role.name}!='MEMBER'" >
-                            <span th:text="${role.name}" th:if="${role.name}!='MEMBER'"></span>
-                        </label>
-                    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
                     <div class="card-body">
+                        <h5 class="card-title">Request History</h5>
+                        <div class="container">
 
-                        <div class="btn-group" style="left: 15%;" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-danger"><a href="/employee/" style="color:white;" >Back</a> </button>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped" style="table-layout: fixed; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Create Date</th>
+                                            <th>Update Date</th>
+                                            <th>Entity Type</th>
+                                            <th>Field</th>
+                                            <th>Old Value</th>
+                                            <th>New Value</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="history, iterStat : ${historyChanges}">
+                                            <td th:text="${iterStat.count}"></td>
+                                            <td th:text="${history.createDate}"></td>
+                                            <td th:text="${history.updateDate}"></td>
+                                            <td th:text="${history.entityType}"></td>
+                                            <td th:text="${history.fieldName}"></td>
+                                            <td th:text="${history.oldValue}"></td>
+                                            <td th:text="${history.newValue}"></td>
+                                            <td th:text="${history.getStatusString()}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
                         </div>
-
-                        <div class="btn-group" style="left: 15%;" role="group" aria-label="Basic outlined example">
-                            <button class="btn btn-primary w-100" onclick="return confirm('Continue?')" type="submit">Submit</button>
-
-                        </div>
-
                     </div>
-
-
                 </div>
-            </form>
-
+            </div>
         </div>
-
     </section>
 
 </main><!-- End #main -->
 
+
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
 
-
 </footer><!-- End Footer -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-<script>
-    function validateForm() {
-        var checkboxes = document.querySelectorAll('input[type="checkbox"][name="roles"]:checked');
-        if (checkboxes.length < 1) {
-            alert('Please select at-least 1 role');
-            return false;
-        }
-        return true;
-    }
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
 
-
-    function valideNumber() {
-        var charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode >= 48 && charCode <= 57) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
 <!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
 
 <!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+<script src="/assets/js/main.js"></script>
 
 </body>
 

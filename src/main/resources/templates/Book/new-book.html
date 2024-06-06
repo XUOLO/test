@@ -274,35 +274,6 @@
 </header><!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link " href="/">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/employee/">
-                <i class="bi bi-person"></i>
-                <span>Employee</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/author/">
-                <i class="ri-user-star-fill"></i>
-                <span>Author</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/book-category/">
-                <i class="ri-book-read-fill"></i>
-                <span>Book category</span>
-            </a>
-        </li>
-    </ul>
-</aside><!-- End Sidebar-->
 
 <main id="main" class="main" layout:fragment="main">
 
@@ -496,8 +467,14 @@
                         <div  >
 
                             <div class="btn-group"  role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-danger"><a href="/book/" style="color:white;" >Back</a> </button>
-
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <button type="button" class="btn btn-danger" onclick="goBack()">Back</button>
+                                </div>
+                                <script>
+                                    function goBack() {
+                  window.history.back();
+                }
+                                </script>
                             </div>
 
                             <div class="btn-group"   role="group" aria-label="Basic outlined example">

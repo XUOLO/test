@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:security="" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{index.html}" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -264,69 +264,19 @@
     </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
-<aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link " href="/">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item" >
-            <a class="nav-link collapsed" href="/employee/">
-                <i class="bi bi-person"></i>
-                <span>Employee</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/author/">
-                <i class="ri-user-star-fill"></i>
-                <span>Author</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/book-category/">
-                <i class="ri-book-read-fill"></i>
-                <span>Book category</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/book/">
-                <i class="bi bi-book"></i>
-                <span>Book</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/member/">
-                <i class="bi bi-person-plus"></i>
-                <span>Member</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/ticket/">
-                <i class="ri-todo-line"></i>
-                <span>Ticket</span>
-            </a>
-        </li>
-    </ul>
-</aside><!-- End Sidebar-->
-
-<main id="main" class="main">
+<main id="main" class="main" layout:fragment="main">
 
     <div class="pagetitle">
         <h1>Data Tables</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">List ticket</li>
+                <li class="breadcrumb-item active">List request</li>
             </ol>
         </nav>
-        <button type="button" class="btn btn-success"><a style="color:white;" href="/ticket/new-ticket">Add ticket </a>
-        </button>
-        <button type="button" class="btn btn-danger"><a style="color:white;" href="/export/exportPenaltyTicket-excel">Export penalty ticket </a>
-        </button>
-    </div><!-- End Page Title -->
+
+     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row">
@@ -334,7 +284,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Ticket table</h5>
+                        <h5 class="card-title">Request table</h5>
 
                         <div class="container">
                             <div class="row mb-3">
@@ -361,8 +311,7 @@
                                             <th data-column="createDate" >Create date </th>
                                             <th data-column="description" >Description</th>
                                              <th data-column="status" >Status</th>
-                                            <th data-column="status" >Update</th>
-                                            <th data-column="" >Actions</th>
+                                             <th data-column="" >Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody id="tableBody">
@@ -466,33 +415,58 @@
                                     let statusText, statusClass, status, penalty;
                                     switch (item.status) {
                                       case '1':
-                                        statusText = 'On Hold';
+                                        statusText = 'Pending';
                                         statusClass = 'color:green;';
                                         penalty = '';
                                         status = `
                           <div>
                           <button type="button" class="btn btn-primary" onClick="updateRequestStatus(${item.id},2)">In progress</button>
+
+                          <button type="button" class="btn btn-danger" onClick="updateRequestStatus(${item.id},5)">Reject</button>
                           </div>
                           `;
 
                                         break;
                                       case '2':
-                                        statusText = 'Returned';
+                                        statusText = 'In progress';
                                         statusClass = 'color:#01f5ef;';
                                         status = 'In progress'
                                         penalty = '';
                                         break;
                                       case '3':
-                                        statusText = 'Overdue';
+                                        statusText = 'Done';
+                                        statusClass = 'color:blue;';
+                                        status = `
+                          <div>
+                          <button type="button" class="btn btn-primary" onClick="updateRequestStatus(${item.id},4)">Approve</button>
+
+                          <button type="button" class="btn btn-danger" onClick="updateRequestStatus(${item.id},5)">Reject</button>
+                            <a  href="/send-request/history/${item.id}">
+                            <i style="margin-left:5px;color:#5bdc42;" class="bi bi-eye-fill"></i>
+                            </a></td>
+
+                          </div>
+                          `;
+
+
+                                        break;
+                                         case '4':
+                                        statusText = 'Approve';
+                                        statusClass = 'color:yellow;';
+                                        status = `
+                          <a  href="/send-request/history/${item.id}">
+                                         <i style="margin-left:5px;color:#5bdc42;" class="bi bi-eye-fill"></i>
+                                     </a></td>
+                          `;
+                                        break;
+                                         case '5':
+                                        statusText = 'Reject';
                                         statusClass = 'color:red;';
-                                        penalty = ` <a  href="/export/penaltyTicket-pdf?ticketId=${item.id}"
-                                        onclick="return confirm('Do you want to print penalty ticket for this member?')">
-                                         <i style="margin-left:5px;color:#5bdc42;" class="bx bx-notification-off"></i>
-                                     </a>
-                          `
-                                        status = `<div>
-                          <button type="button" class="btn btn-primary"  onClick="updateRequestStatus(${item.id},4)">Approve</button>
-                          </div>`
+                                        status = `
+                          <a  href="/send-request/history/${item.id}">
+                                         <i style="margin-left:5px;color:#5bdc42;" class="bi bi-eye-fill"></i>
+                                     </a></td>
+                          `;
                                         break;
                                       default:
                                         statusText = 'item.statusString';
@@ -512,26 +486,13 @@
                                       <td style=" overflow: hidden;
                           text-overflow: ellipsis;
                           white-space: nowrap;">${item.description}</td>
-                                      <td style=" overflow: hidden;
-                          text-overflow: ellipsis;
-                          white-space: nowrap;">${item.status}</td>
-                                      <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; ${statusClass}"  >${statusText}</td>
+                          <td style=" overflow: hidden;
+                          text-overflow: ellipsis; white-space: nowrap; ${statusClass}">${statusText}</td>
 
                           <td style=" overflow: hidden;
                           text-overflow: ellipsis;
                           white-space: nowrap;">${status}</td>
 
-
-                          <td >
-
-                          <a href="/ticket/edit-ticket/${item.id}"><i class="bi bi-pencil-fill"> </i></a>
-                          <a  href="/ticket/delete-ticket/${item.id}" onclick="return confirm('Do you want delete this ticket?')"> <i style="margin-left:5px;color:red;" class="bi bi-trash-fill"></i></a>
-                          <a  href="/export/generate-pdf?ticketId=${item.id}"
-                          onclick="return confirm('Do you want to print PDF for this ticket?')">
-                          <i style="margin-left:5px;color:black;" class="bi bi-printer-fill"></i>
-                          </a>
-                          ${penalty}
-                          </td>
 
 
                                     `;

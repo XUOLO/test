@@ -1,12 +1,9 @@
 package com.example.BookMangement.Controller.RestController;
 
-import com.example.BookMangement.Entity.BaseRes;
 import com.example.BookMangement.Entity.Book;
-import com.example.BookMangement.Entity.Role;
 import com.example.BookMangement.Entity.Ticket;
 import com.example.BookMangement.Entity.TicketDetail;
 import com.example.BookMangement.Entity.TicketItem;
-import com.example.BookMangement.Entity.User;
 import com.example.BookMangement.Repository.BookRepository;
 import com.example.BookMangement.Repository.TicketDetailRepository;
 import com.example.BookMangement.Repository.TicketRepository;
@@ -16,12 +13,9 @@ import com.example.BookMangement.Service.ListTicketService;
 import com.example.BookMangement.Service.MemberService;
 import com.example.BookMangement.Service.TicketDetailService;
 import com.example.BookMangement.Service.TicketService;
-import com.example.BookMangement.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -40,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * TicketRestController

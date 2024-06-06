@@ -283,22 +283,58 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item">
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/employee/">
                 <i class="bi bi-person"></i>
                 <span>Employee</span>
             </a>
         </li><!-- End Profile Page Nav -->
-        <li class="nav-item">
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/author/">
                 <i class="ri-user-star-fill"></i>
                 <span>Author</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/book-category/">
                 <i class="ri-book-read-fill"></i>
                 <span>Book category</span>
+            </a>
+        </li>
+        <li class="nav-item"   th:if="${userRole == 'ADMIN' }">
+            <a class="nav-link collapsed" href="/book/">
+                <i class="bi bi-book"></i>
+                <span>Book</span>
+            </a>
+        </li>
+        <li class="nav-item"   th:if="${userRole == 'EMPLOYEE'}">
+            <a class="nav-link collapsed" href="/book/employee">
+                <i class="bi bi-book"></i>
+                <span>Book</span>
+            </a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link collapsed" href="/member/">
+                <i class="bi bi-person-plus"></i>
+                <span>Member</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/ticket/">
+                <i class="ri-todo-line"></i>
+                <span>Ticket</span>
+            </a>
+        </li>
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
+            <a class="nav-link collapsed" href="/send-request/">
+                <i class="ri-todo-line"></i>
+                <span>Request</span>
+            </a>
+        </li>
+        <li class="nav-item" th:if="${userRole == 'EMPLOYEE' }">
+            <a class="nav-link collapsed" href="/send-request/employee">
+                <i class="ri-todo-line"></i>
+                <span>Request</span>
             </a>
         </li>
     </ul>
@@ -315,9 +351,9 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section dashboard" >
+    <section class="section dashboard" th:if="${userRole == 'ADMIN' }">
         <div class="card-body">
-            <form th:action="@{/book/edit-book}" th:object="${book}" method="POST" onsubmit="return validateForm()">
+            <form th:action="@{/book/edit-book}" th:object="${book}" method="post" onsubmit="return validateForm()">
                 <div th:if="${editBookSuccess}" class="alert alert-success">
                     <p style="text-align:center;" th:text="${editBookSuccess}"></p>
                 </div>
@@ -325,6 +361,276 @@
                     <p style="text-align:center;" th:text="${editBookError}"></p>
                 </div>
 
+                <input hidden th:field="*{id}" />
+                <input hidden th:field="*{createBy}" />
+                <input hidden th:field="*{isDelete}" />
+                <input hidden th:field="*{createDate}" />
+                <input hidden th:field="*{updateBy}" />
+                <input hidden th:field="*{updateDate}" />
+
+                <div class="row mb-3">
+                    <label for="title" class="col-sm-2 col-form-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="title" required  oninvalid="this.setCustomValidity('Your title is required')" name="title" onchange="this.setCustomValidity('')"  th:field="*{title}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="price" class="col-sm-2 col-form-label">Price</label>
+                    <div class="col-sm-10">
+                        <input type="number"  step="0.01" min="1" required  oninvalid="this.setCustomValidity('Your price is required')" onchange="this.setCustomValidity('')" id="price" name="price"  th:field="*{price}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
+                    <div class="col-sm-10">
+                        <input type="number" min="1" id="quantity" required  oninvalid="this.setCustomValidity('Your quantity is required')" onchange="this.setCustomValidity('')" name="quantity"  th:field="*{quantity}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="publishYear" class="col-sm-2 col-form-label">Publish year</label>
+                    <div class="col-sm-10">
+                        <input type="number"  id="publishYear" name="publishYear" th:field="*{publishYear}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('publishYear')}" th:errors="*{publishYear}"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="createBy" class="col-sm-2 col-form-label">Create by</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="createBy" name="createBy" disabled th:field="*{createBy}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('createBy')}" th:errors="*{createBy}"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="createDate" class="col-sm-2 col-form-label">Create date</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="createDate" name="createDate" disabled th:field="*{createDate}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('createDate')}" th:errors="*{createDate}"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="updateBy" class="col-sm-2 col-form-label">Update by</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="updateBy" name="updateBy" disabled th:field="*{updateBy}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('updateBy')}" th:errors="*{updateBy}"></span>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="updateDate" class="col-sm-2 col-form-label">Update date</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="updateDate" name="updateDate" disabled th:field="*{updateDate}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('updateDate')}" th:errors="*{updateDate}"></span>
+
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="image" class="col-sm-2 col-form-label">Image</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="image" name="image"  th:field="*{image}" class="form-control">
+                        <span class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+
+                    </div>
+                </div>
+                <div class="row mb-12">
+                    <div class="col-md-6">
+                        <div class="row mb-3">
+                            <label for="category" class="col-sm-3 col-form-label">Book category</label>
+                            <div class="col-sm-7" style="padding-left: 10%;" id="category">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select category
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 200px; overflow-y:scroll;" aria-labelledby="categoryDropdown">
+                                        <li th:each="list : ${bookCategoryList}">
+                                            <input  th:field="*{bookCategories}" name="bookCategories" th:value="${list.id}"  type="checkbox" class="form-check-input">
+                                            <label class="form-check-label" th:text="${list.title}">One</label>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row mb-3">
+
+                            <label for="author" class="col-sm-2 col-form-label">Book author</label>
+
+                            <div class="col-sm-10" id="author">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="authorDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select author
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 200px; overflow-y:scroll;" aria-labelledby="authorDropdown">
+                                        <li th:each="author : ${authorList}">
+                                            <input th:value="${author.id}"  th:field="*{authors}" name="authors"  type="checkbox" class="form-check-input">
+                                            <label class="form-check-label" th:text="${author.name}">One</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <script>
+                    // Lấy các phần tử cần sử dụng
+                    const dropdownButton = document.getElementById('categoryDropdown');
+                    const checkboxes = document.querySelectorAll('#category input[type="checkbox"]');
+                    const label = document.getElementById('selectedValues');
+
+                    // Lắng nghe sự kiện khi các checkbox được chọn/deselect
+                    checkboxes.forEach((checkbox) => {
+                        checkbox.addEventListener('change', () => {
+                            updateDropdownButtonText();
+                        });
+                    });
+
+                    // Xử lý sự kiện click trên giá trị checkbox hoặc checkbox
+                    const checkboxLabels = document.querySelectorAll('#category .dropdown-menu label.form-check-label');
+                    checkboxLabels.forEach((label) => {
+                        label.addEventListener('click', (event) => {
+                            event.stopPropagation(); // Ngăn chặn sự kiện click lan ra các phần tử cha
+                            const checkbox = label.previousElementSibling;
+                            checkbox.checked = !checkbox.checked;
+                            updateDropdownButtonText();
+                        });
+                    });
+
+                    // Cập nhật giá trị vào nút "Open this select menu"
+                    function updateDropdownButtonText() {
+                        const selectedOptions = [];
+
+                        checkboxes.forEach((checkbox) => {
+                            if (checkbox.checked) {
+                                selectedOptions.push(checkbox.nextElementSibling.textContent);
+                            }
+                        });
+
+                        if (selectedOptions.length === 0) {
+                            dropdownButton.textContent = 'Select category';
+                        } else {
+                            dropdownButton.textContent = selectedOptions.length + ' selected';
+                        }
+                    }
+                </script>
+
+
+                <script>
+                    // Lấy các phần tử cần sử dụng
+                    const authorDropdownButton = document.getElementById('authorDropdown');
+                    const authorCheckboxes = document.querySelectorAll('#author input[type="checkbox"]');
+
+                    // Lắng nghe sự kiện khi các checkbox được chọn/deselect
+                    authorCheckboxes.forEach((checkbox) => {
+                        checkbox.addEventListener('change', () => {
+                            updateAuthorDropdownButtonText();
+                        });
+                    });
+
+                    // Xử lý sự kiện click trên giá trị checkbox hoặc checkbox
+                    const authorCheckboxLabels = document.querySelectorAll('#author .dropdown-menu label.form-check-label');
+                    authorCheckboxLabels.forEach((label) => {
+                        label.addEventListener('click', (event) => {
+                            event.stopPropagation(); // Ngăn chặn sự kiện click lan ra các phần tử cha
+                            const checkbox = label.previousElementSibling;
+                            checkbox.checked = !checkbox.checked;
+                            updateAuthorDropdownButtonText();
+                        });
+                    });
+
+                    // Cập nhật giá trị vào nút "Open this select menu"
+                    function updateAuthorDropdownButtonText() {
+                        const selectedAuthors = [];
+
+                        authorCheckboxes.forEach((checkbox) => {
+                            if (checkbox.checked) {
+                                selectedAuthors.push(checkbox.nextElementSibling.textContent);
+                            }
+                        });
+
+                        if (selectedAuthors.length === 0) {
+                            authorDropdownButton.textContent = 'Select author';
+                        } else  {
+                            authorDropdownButton.textContent = selectedAuthors.length + ' selected';
+                        }
+                    }
+                </script>
+                <div class="row mb-3">
+                    <label  class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <div >
+
+                            <div class="btn-group"  role="group" aria-label="Basic mixed styles example">
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <button type="button" class="btn btn-danger" onclick="goBack()">Back</button>
+                                </div>
+                                <script>
+                                    function goBack() {
+                  window.history.back();
+                }
+                                </script>
+                            </div>
+
+                            <div class="btn-group"  role="group" aria-label="Basic outlined example">
+                                <button class="btn btn-primary w-100" onclick="return confirm('Confirm your change ?')" type="submit">Submit</button>
+
+                            </div>
+
+                        </div>
+                     </div>
+
+                </div>
+
+            </form>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+        </div>
+        <script>
+            function validateForm() {
+
+                    var selectedCategories = document.querySelectorAll('input[type="checkbox"][name="bookCategories"]:checked');
+                    var selectedAuthors = document.querySelectorAll('input[type="checkbox"][name="authors"]:checked');
+
+                    if (selectedCategories.length < 1||selectedAuthors.length < 1) {
+                        alert('Please select at-least 1 category and author');
+                        return false;
+                    }
+                    return true;
+                }
+
+
+                function valideNumber() {
+                    var charCode = (event.which) ? event.which : event.keyCode;
+                    if (charCode >= 48 && charCode <= 57) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+        </script>
+    </section>
+    <section class="section dashboard" th:if="${userRole == 'EMPLOYEE' }">
+        <div class="card-body">
+            <form th:action="@{/book/edit-book-employee}" th:object="${book}" method="post" onsubmit="return validateForm()">
+                <div th:if="${editBookSuccess}" class="alert alert-success">
+                    <p style="text-align:center;" th:text="${editBookSuccess}"></p>
+                </div>
+                <div th:if="${editBookError}" class="alert alert-danger">
+                    <p style="text-align:center;" th:text="${editBookError}"></p>
+                </div>
+                <input hidden name="requestId" th:value="${requestId}" />
                 <input hidden th:field="*{id}" />
                 <input hidden th:field="*{createBy}" />
                 <input hidden th:field="*{isDelete}" />
@@ -536,17 +842,23 @@
                         <div >
 
                             <div class="btn-group"  role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-danger"><a href="/book/" style="color:white;">Back</a> </button>
-
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <button type="button" class="btn btn-danger" onclick="goBack()">Back</button>
+                                </div>
+                                <script>
+                                    function goBack() {
+                  window.history.back();
+                }
+                                </script>
                             </div>
 
                             <div class="btn-group"  role="group" aria-label="Basic outlined example">
-                                <button class="btn btn-primary w-100" onclick="return confirm('Continue?')" type="submit">Submit</button>
+                                <button class="btn btn-primary w-100" onclick="return confirm('Confirm your change ?')" type="submit">Submit</button>
 
                             </div>
 
                         </div>
-                     </div>
+                    </div>
 
                 </div>
 

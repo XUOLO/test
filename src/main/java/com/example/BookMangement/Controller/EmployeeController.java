@@ -41,25 +41,7 @@ public class EmployeeController {
     @Autowired
     private UserService userService;
 
-    // Paginate
-    @GetMapping("/page-employee/{page-no}")
-    public String findPaginatedEmployee(Authentication authentication, @PathVariable(value = "page-no") int pageNo, Model model, @RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
-        int pageSize = 5;
-        Page<User> page = userService.findPaginatedEmployee(pageNo, pageSize, sortField, sortDir);
-        List<User> listUser = page.getContent();
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-        model.addAttribute("listUser", listUser);
-        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
-        model.addAttribute("userRole", userRole);
-        return "Employee/list-employee";
 
-    }
 
     // List employee page
     @GetMapping("/")
@@ -113,6 +95,11 @@ public class EmployeeController {
             return "Employee/edit-employee";
         }
         String nameLogin = (String) session.getAttribute("name");
+        String name = (String) session.getAttribute("name");
+        model.addAttribute("name", name);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+        model.addAttribute("userRole", userRole);
         user.setUpdateBy(nameLogin);
         user.setPassword(user.getPassword());
         user.setUpdateDate(LocalDate.now());
@@ -144,6 +131,9 @@ public class EmployeeController {
         }
         String name = (String) session.getAttribute("name");
         model.addAttribute("name", name);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+        model.addAttribute("userRole", userRole);
         user.setCreateDate(LocalDate.now());
         user.setCreateBy(name);
         user.setUpdateDate(LocalDate.now());

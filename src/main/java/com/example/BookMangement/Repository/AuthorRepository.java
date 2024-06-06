@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * AuthorRepository
@@ -37,4 +38,6 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
             + ") "
             + "AND b.isDelete = false")
     Page<Author> findAllByKeyword(@Param("keyword")String keyword, Pageable pageable);
+
+    Set<Author> findByNameIn(List<String> list);
 }

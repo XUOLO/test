@@ -329,7 +329,6 @@
         </li>
     </ul>
 </aside><!-- End Sidebar-->
-
 <main id="main" class="main" layout:fragment="main">
 
     <div class="pagetitle">
@@ -337,12 +336,11 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">List author</li>
+                <li class="breadcrumb-item active">List request</li>
             </ol>
         </nav>
-        <button type="button" class="btn btn-success"><a style="color:white;" href="/author/new-author">Add author </a>
+        <button type="button" class="btn btn-success"><a style="color:white;" href="/send-request/new-request">New request </a>
         </button>
-
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -351,7 +349,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Authors table</h5>
+                        <h5 class="card-title">Request table</h5>
 
                         <div class="container">
                             <div class="row mb-3">
@@ -374,12 +372,12 @@
                                         <thead>
                                         <tr>
                                             <th data-column="">#</th>
-                                            <th data-column="name" >Name</th>
-                                            <th data-column="createDate" >Create date</th>
-                                            <th data-column="createBy" >Create by</th>
-                                            <th data-column="updateDate" >Update date</th>
-                                            <th data-column="updateBy" >Update by</th>
-                                            <th data-column="" >Actions</th>
+                                            <th data-column="createBy" >Request by</th>
+                                            <th data-column="createDate" >Create date </th>
+                                            <th data-column="description" >Description</th>
+                                            <th data-column="status" >Status</th>
+                                            <th data-column="" >Action</th>
+
                                         </tr>
                                         </thead>
                                         <tbody id="tableBody">
@@ -388,24 +386,35 @@
 
                                 </div>
                                 <div class="col-md-12">
-
-                                    <nav aria-label="Page navigation">
+                                    <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-center">
-                                            <li class="page-item" id="prevPage">
-                                                <a class="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
+                                            <li class="page-item disabled" id="prevPage">
+                                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
                                             </li>
-                                            <li class="page-item active" id="currentPage">
-                                                <a class="page-link" href="#">1</a>
-                                            </li>
+                                            <li class="page-item"  id="currentPage"><a class="page-link" href="#">1</a></li>
+
                                             <li class="page-item" id="nextPage">
-                                                <a class="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
+                                                <a class="page-link" href="#">Next</a>
                                             </li>
                                         </ul>
                                     </nav>
+                                    <!--                                    <nav aria-label="Page navigation">-->
+                                    <!--                                        <ul class="pagination justify-content-center">-->
+                                    <!--                                            <li class="page-item" id="prevPage">-->
+                                    <!--                                                <a class="page-link" href="#" aria-label="Previous">-->
+                                    <!--                                                    <span aria-hidden="true">&laquo;</span>-->
+                                    <!--                                                </a>-->
+                                    <!--                                            </li>-->
+                                    <!--                                            <li class="page-item active" id="currentPage">-->
+                                    <!--                                                <a class="page-link" href="#">1</a>-->
+                                    <!--                                            </li>-->
+                                    <!--                                            <li class="page-item" id="nextPage">-->
+                                    <!--                                                <a class="page-link" href="#" aria-label="Next">-->
+                                    <!--                                                    <span aria-hidden="true">&raquo;</span>-->
+                                    <!--                                                </a>-->
+                                    <!--                                            </li>-->
+                                    <!--                                        </ul>-->
+                                    <!--                                    </nav>-->
 
                                 </div>
                             </div>
@@ -413,32 +422,52 @@
                         </div>
 
                         <script>
+
+                            function updateRequestStatus(requestId, statusId) {
+
+
+                              fetch(`/api/v1/send-request/updateRequestStatus?requestId=${requestId}&status=${statusId}`, {
+                                method: 'GET',
+                              })
+                                .then(response => {
+                                  if (response.ok) {
+                                    // Reload lại trang sau khi cập nhật thành công
+                                    location.reload();
+                                  } else {
+                                    console.error('Failed to update request status');
+                                  }
+                                })
+                                .catch(error => {
+                                  console.error('Error:', error);
+                                });
+                            }
+
                             let currentPage = 1;
                             let pageSize = 5;
                             let totalPages = 0;
                             let keyword = '';
 
-                      const columnHeaders = document.querySelectorAll('th[data-column]');
-                      columnHeaders.forEach((header, index) => {
-                        header.addEventListener('click', () => {
-                          const sortColumn = header.dataset.column;
-                          const sortDirection = header.classList.contains('sort-asc') ? 'desc' : 'asc';
+                            const columnHeaders = document.querySelectorAll('th[data-column]');
+                            columnHeaders.forEach((header, index) => {
+                              header.addEventListener('click', () => {
+                                const sortColumn = header.dataset.column;
+                                const sortDirection = header.classList.contains('sort-asc') ? 'desc' : 'asc';
 
-                          // Update the sort direction class
-                          columnHeaders.forEach(h => {
-                            h.classList.remove('sort-asc', 'sort-desc');
-                          });
-                          header.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+                                // Update the sort direction class
+                                columnHeaders.forEach(h => {
+                                  h.classList.remove('sort-asc', 'sort-desc');
+                                });
+                                header.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
 
-                          // Load data with sorting
-                          loadData(1, pageSize, keyword, sortColumn, sortDirection);
-                          console.log(sortColumn);
-                        });
-                      });
+                                // Load data with sorting
+                                loadData(1, pageSize, keyword, sortColumn, sortDirection);
+                                console.log(sortColumn);
+                              });
+                            });
 
-                            function loadData(page, size, key, sortColumn = 'name', sortDirection = 'asc') {
+                            function loadData(page, size, key, sortColumn = 'description', sortDirection = 'asc') {
                               // Fetch data from API
-                              fetch(`http://localhost:8080/api/v1/page/authors?keyword=${key}&size=${size}&page=${page-1}&sort=${sortColumn},${sortDirection}`)
+                              fetch(`http://localhost:8080/api/v1/page/request-employee?keyword=${key}&size=${size}&page=${page - 1}&sort=${sortColumn},${sortDirection}`)
                                 .then(response => response.json())
                                 .then(data => {
                                   // Clear existing table data
@@ -448,32 +477,79 @@
 
                                   let rowIndex = (page - 1) * size + 1;
                                   data.data.content.forEach(item => {
+
+                                    let statusText, statusClass, status, penalty;
+                                    switch (item.status) {
+                                      case '1':
+                                        statusText = 'Pending';
+                                        statusClass = 'color:green;';
+                                        penalty = '';
+                                        status='';
+
+                                        break;
+                                      case '2':
+                                        statusText = 'In progress';
+                                        statusClass = 'color:#01f5ef;';
+                                         penalty = '';
+                                         status=`<a  href="/book/edit-book-request/${item.id}">
+                                         <i style="margin-left:5px;color:#5bdc42;" class="bx bx-notification-off"></i>
+                                     </a>`;
+                                        break;
+                                      case '3':
+                                        statusText = 'Done';
+                                        statusClass = 'color:blue;';
+                                        status=`
+                          <a  href="/send-request/history/${item.id}">
+                                         <i style="margin-left:5px;color:#5bdc42;" class="bi bi-eye-fill"></i>
+                                     </a></td>
+                          `;
+
+
+                                        break;
+                                         case '4':
+                                        statusText = 'Approve';
+                                        statusClass = 'color:yellow;';
+                                        status=`
+                          <a  href="/send-request/history/${item.id}">
+                                         <i style="margin-left:5px;color:#5bdc42;" class="bi bi-eye-fill"></i>
+                                     </a></td>
+                          `;
+                                         break;
+                                         case '5':
+                                        statusText = 'Reject';
+                                        statusClass = 'color:red;';
+                                        status=`
+                          <a  href="/send-request/history/${item.id}">
+                                         <i style="margin-left:5px;color:#5bdc42;" class="bi bi-eye-fill"></i>
+                                     </a></td>
+                          `;
+                                         break;
+                                      default:
+                                        statusText = 'item.statusString';
+                                        statusClass = '';
+                                        status='';
+                                    }
                                     const row = document.createElement('tr');
                                     row.innerHTML = `
                                      <th style=" overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;">${rowIndex}</th>
+                          text-overflow: ellipsis;
+                          white-space: nowrap;">${rowIndex}</th>
                                       <td style=" overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;">${item.name}</td>
+                          text-overflow: ellipsis;
+                          white-space: nowrap;">${item.createBy}</td>
                                       <td style=" overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;">${item.createDate}</td>
+                          text-overflow: ellipsis;
+                          white-space: nowrap;">${item.createDate}</td>
                                       <td style=" overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;">${item.createBy}</td>
-                                      <td style=" overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;">${item.updateDate}</td>
-                                      <td style=" overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;">${item.updateBy}</td>
+                          text-overflow: ellipsis;
+                          white-space: nowrap;">${item.description}</td>
+                          <td style=" overflow: hidden;
+                          text-overflow: ellipsis; white-space: nowrap; ${statusClass}">${statusText}</td>
 
-            <td >
-            <a href="/author/edit-author/${item.id}"><i class="bi bi-pencil-fill"> </i></a>
-            <a  href="/author/delete-author/${item.id}" onclick="return confirm('Do you want delete this author?')"> <i style="margin-left:5px;color:red;" class="bi bi-trash-fill"></i></a>
 
-          </td>
+<td style=" overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;">${status}</td>
 
 
                                     `;
@@ -490,14 +566,14 @@
                             }
 
                             function updatePagination() {
-                        const prevPage = document.getElementById('prevPage');
-                        const currentPageElement = document.getElementById('currentPage');
-                        const nextPage = document.getElementById('nextPage');
+                              const prevPage = document.getElementById('prevPage');
+                              const currentPageElement = document.getElementById('currentPage');
+                              const nextPage = document.getElementById('nextPage');
 
-                        prevPage.classList.toggle('disabled', currentPage === 1);
-                        currentPageElement.querySelector('a').textContent = currentPage;
-                        nextPage.classList.toggle('disabled', currentPage === totalPages);
-                      }
+                              prevPage.classList.toggle('disabled', currentPage === 1);
+                              currentPageElement.querySelector('a').textContent = currentPage;
+                              nextPage.classList.toggle('disabled', currentPage === totalPages);
+                            }
 
                             // Event listeners
                             document.getElementById('searchInput').addEventListener('input', () => {
@@ -506,9 +582,9 @@
                             });
 
                             document.getElementById('pageSizeSelect').addEventListener('change', () => {
-                        pageSize = parseInt(document.getElementById('pageSizeSelect').value);
-                        loadData(1, pageSize, keyword);
-                      });
+                              pageSize = parseInt(document.getElementById('pageSizeSelect').value);
+                              loadData(1, pageSize, keyword);
+                            });
 
                             document.getElementById('prevPage').addEventListener('click', () => {
                               if (currentPage > 1) {
@@ -530,7 +606,6 @@
 
                     </div>
                 </div>
-
 
             </div>
         </div>

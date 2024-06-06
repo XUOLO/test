@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:security="" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{index.html}" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -273,31 +273,37 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item" >
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/employee/">
                 <i class="bi bi-person"></i>
                 <span>Employee</span>
             </a>
         </li><!-- End Profile Page Nav -->
-        <li class="nav-item">
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/author/">
                 <i class="ri-user-star-fill"></i>
                 <span>Author</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/book-category/">
                 <i class="ri-book-read-fill"></i>
                 <span>Book category</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"   th:if="${userRole == 'ADMIN' }">
             <a class="nav-link collapsed" href="/book/">
                 <i class="bi bi-book"></i>
                 <span>Book</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"   th:if="${userRole == 'EMPLOYEE'}">
+            <a class="nav-link collapsed" href="/book/employee">
+                <i class="bi bi-book"></i>
+                <span>Book</span>
+            </a>
+        </li>
+        <li class="nav-item" >
             <a class="nav-link collapsed" href="/member/">
                 <i class="bi bi-person-plus"></i>
                 <span>Member</span>
@@ -309,10 +315,22 @@
                 <span>Ticket</span>
             </a>
         </li>
+        <li class="nav-item" th:if="${userRole == 'ADMIN' }">
+            <a class="nav-link collapsed" href="/send-request/">
+                <i class="ri-todo-line"></i>
+                <span>Request</span>
+            </a>
+        </li>
+        <li class="nav-item" th:if="${userRole == 'EMPLOYEE' }">
+            <a class="nav-link collapsed" href="/send-request/employee">
+                <i class="ri-todo-line"></i>
+                <span>Request</span>
+            </a>
+        </li>
     </ul>
 </aside><!-- End Sidebar-->
 
-<main id="main" class="main">
+<main id="main" class="main" layout:fragment="main">
 
     <div class="pagetitle">
         <h1>Data Tables</h1>
@@ -356,6 +374,7 @@
                                         <thead>
                                         <tr>
                                             <th data-column="">#</th>
+                                            <th data-column="" >Image</th>
                                             <th data-column="title" >Title</th>
                                             <th data-column="quantity" >Quantity</th>
                                             <th data-column="price" >Price</th>
@@ -436,6 +455,11 @@
                                      <th style=" overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;">${rowIndex}</th>
+                         <td style=" overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;">
+                            <img height="100px" ${item.image ? `src="${item.image}"` : `src="/assets/img/bookDefault.png"`} alt="">
+                            </td>
                                       <td style=" overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;">${item.title}</td>
@@ -457,9 +481,7 @@
             <td >
             <a href="/book/edit-book/${item.id}"><i class="bi bi-pencil-fill"> </i></a>
             <a  href="/book/delete-book/${item.id}" onclick="return confirm('Do you want delete this book?')"> <i style="margin-left:5px;color:red;" class="bi bi-trash-fill"></i></a>
-            <a  href="/book/edit-book/${item.id}">
-              <i style="margin-left:5px;" class="bi bi-eye-fill"></i>
-            </a>
+
           </td>
 
 

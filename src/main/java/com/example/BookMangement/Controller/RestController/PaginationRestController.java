@@ -10,6 +10,7 @@ import com.example.BookMangement.Service.TicketService;
 import com.example.BookMangement.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,7 @@ public class PaginationRestController {
         BaseRes bookList = bookService.getCmbSong(keyword, pageable, httpServletRequest, httpServletResponse);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
+
 
     @GetMapping("/book-category")
     public ResponseEntity<BaseRes> getBookCategoryList(
@@ -109,7 +111,16 @@ public class PaginationRestController {
             Pageable pageable,
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse) {
-        BaseRes bookList = sendRequestService.getCmbSong(keyword, pageable, httpServletRequest, httpServletResponse);
+        BaseRes bookList = sendRequestService.getCmbAdmin(keyword, pageable, httpServletRequest, httpServletResponse);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
+    }
+    @GetMapping("/request-employee")
+    public ResponseEntity<BaseRes> getRequestListEmployee(
+            @RequestParam("keyword") String keyword,
+            Pageable pageable,
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse, HttpSession session) {
+        BaseRes bookList = sendRequestService.getCmbSong(keyword, pageable, httpServletRequest, httpServletResponse,session);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 }

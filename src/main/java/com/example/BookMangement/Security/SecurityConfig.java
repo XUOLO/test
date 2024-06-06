@@ -54,6 +54,8 @@ public class SecurityConfig {
                                 .requestMatchers("/author/**").hasAuthority("ADMIN")
                                 .requestMatchers("/book-category/**").hasAuthority("ADMIN")
                                 .requestMatchers("/assets/**").permitAll()
+                                .requestMatchers("/book/").hasAuthority("ADMIN")
+                                .requestMatchers("/send-request/").hasAuthority("ADMIN")
 
                                 .anyRequest().authenticated()
 
